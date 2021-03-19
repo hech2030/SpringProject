@@ -24,4 +24,8 @@ public class AdsEntityServices {
         }
         return _adsEntityRepository.findByIsDeletedFalse();
     }
+
+    public AdsEntityModel save(AdsEntityModel value){
+        return _adsEntityRepository.saveAndFlush(value);
+    }
 }

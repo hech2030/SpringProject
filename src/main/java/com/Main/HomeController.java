@@ -2,6 +2,7 @@ package com.Main;
 
 import com.Main.Models.AdsEntityModel;
 import com.Main.Request.AdsFindRequest;
+import com.Main.Request.AdsSaveRequest;
 import com.Main.Security.JwtResponse;
 import com.Main.Security.SignInRequest;
 import com.Main.Services.AdsEntityServices;
@@ -18,20 +19,16 @@ public class HomeController {
     @Autowired
     private AdsEntityServices _adsEntityServices;
 
-    //@RequestMapping("/")
-    //public String test(){
-     //   return "hello, welcome";
-    //}
-
-    //@RequestMapping(value = {"/home", "/home/{id}"})
-    //public List<AdsEntityModel> listAds(@PathVariable(required = false) Integer id){
-     //   id = id != null ? id : 0;
-      //  return _adsEntityServices.find(id);
-    //}
-
-    @PostMapping(value = {"/homee"})
+    @PostMapping(value = {"/home"})
     public List<AdsEntityModel> getAllAds(@RequestBody AdsFindRequest findRequest) {
         int id = findRequest != null ? findRequest.id : 0;
         return _adsEntityServices.find(id);
+    }
+
+    @PostMapping(value = {"/SaveAd"})
+    public AdsEntityModel SaveAd(@RequestBody AdsSaveRequest saveRequest) {
+        if(saveRequest.value != null)
+            return _adsEntityServices.save(saveRequest.value);
+        return null;
     }
 }

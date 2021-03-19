@@ -2,11 +2,13 @@ package com.Main.Models;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="AEM_AdEntityModel")
 public class AdsEntityModel {
-    public AdsEntityModel(long id, String title, Date creationDate, String objectLocation, boolean isDeleted, String details, double price, String targetNumber) {
+    public AdsEntityModel(long id, String title, Date creationDate, String objectLocation, boolean isDeleted, String details, double price, String targetNumber, Long ownerId, List<AdDescription> descriptions) {
         Id = id;
         this.title = title;
         this.creationDate = creationDate;
@@ -15,6 +17,8 @@ public class AdsEntityModel {
         this.details = details;
         this.price = price;
         this.targetNumber = targetNumber;
+        this.ownerId = ownerId;
+        this.descriptions = descriptions;
     }
 
     @Id
@@ -27,6 +31,29 @@ public class AdsEntityModel {
     private String details;
     private double price;
     private String targetNumber;
+    private Long ownerId;
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    @OneToMany(targetEntity = AdDescription.class, cascade = CascadeType.ALL)
+    @JoinColumn(name="AdsId", referencedColumnName = "id")
+    private List<AdDescription> descriptions;
+
+
+
+    public List<AdDescription> getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(List<AdDescription> descriptions) {
+        this.descriptions = descriptions;
+    }
 
     public AdsEntityModel(){}
 
