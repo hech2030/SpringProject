@@ -1,4 +1,4 @@
-# SpringProject
+#  SpringProject
 
 Important : 
 Change you connection string in src/java/resources/application.propreties
