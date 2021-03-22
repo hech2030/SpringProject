@@ -45,6 +45,10 @@ public class AdsEntityModel {
     @JoinColumn(name="AdsId", referencedColumnName = "id")
     private List<AdDescription> descriptions;
 
+    @OneToMany(targetEntity = AdPictures.class, cascade = CascadeType.ALL)
+    @JoinColumn(name="AdsPId", referencedColumnName = "id")
+    private List<AdPictures> pictures;
+
 
 
     public List<AdDescription> getDescriptions() {
