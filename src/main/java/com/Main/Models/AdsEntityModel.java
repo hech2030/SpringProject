@@ -1,5 +1,7 @@
 package com.Main.Models;
 
+import com.Main.Models.Referentiel.Category;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name="AEM_AdEntityModel")
 public class AdsEntityModel {
-    public AdsEntityModel(long id, String title, Date creationDate, String objectLocation, boolean isDeleted, String details, double price, String targetNumber, Long ownerId, List<AdDescription> descriptions) {
+    public AdsEntityModel(long id, String title, Date creationDate, String objectLocation, boolean isDeleted, String details, double price, String targetNumber, Long ownerId, List<AdDescription> descriptions, List<AdPictures> pictures, Category category) {
         Id = id;
         this.title = title;
         this.creationDate = creationDate;
@@ -19,6 +21,8 @@ public class AdsEntityModel {
         this.targetNumber = targetNumber;
         this.ownerId = ownerId;
         this.descriptions = descriptions;
+        this.pictures = pictures;
+        this.category = category;
     }
 
     @Id
@@ -32,6 +36,10 @@ public class AdsEntityModel {
     private double price;
     private String targetNumber;
     private Long ownerId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "categoryId", referencedColumnName = "id")
+    private Category category;
 
     public Long getOwnerId() {
         return ownerId;
@@ -123,5 +131,21 @@ public class AdsEntityModel {
 
     public void setTargetNumber(String targetNumber) {
         this.targetNumber = targetNumber;
+    }
+
+    public List<AdPictures> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<AdPictures> pictures) {
+        this.pictures = pictures;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

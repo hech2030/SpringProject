@@ -8,7 +8,7 @@ public class AdPictures {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
-    private byte[] content;
+    private String content;
     private Long AdsPId;
 
     public long getId() {
@@ -19,11 +19,11 @@ public class AdPictures {
         Id = id;
     }
 
-    public byte[] getContent() {
+    public String getContent() {
         return content;
     }
 
-    public void setContent(byte[] content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
@@ -35,11 +35,12 @@ public class AdPictures {
         AdsPId = adsId;
     }
 
-    public AdPictures(long id, byte[] content, Long adsId) {
+    public AdPictures(long id, String content, Long adsId) {
         Id = id;
         this.content = content;
         AdsPId = adsId;
     }
+    public AdPictures(){}
 
 
 }
