@@ -1,6 +1,7 @@
 package com.Main.Models;
 
 import com.Main.Models.Referentiel.Category;
+import com.Main.Security.AppUser;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name="AEM_AdEntityModel")
 public class AdsEntityModel {
-    public AdsEntityModel(long id, String title, Date creationDate, String objectLocation, boolean isDeleted, String details, double price, String targetNumber, Long ownerId, List<AdDescription> descriptions, List<AdPictures> pictures, Category category) {
+    public AdsEntityModel(long id, String title, Date creationDate, String objectLocation, boolean isDeleted, String details, double price, String targetNumber, List<AdDescription> descriptions, List<AdPictures> pictures, Category category, AppUser user) {
         Id = id;
         this.title = title;
         this.creationDate = creationDate;
@@ -19,10 +20,10 @@ public class AdsEntityModel {
         this.details = details;
         this.price = price;
         this.targetNumber = targetNumber;
-        this.ownerId = ownerId;
         this.descriptions = descriptions;
         this.pictures = pictures;
         this.category = category;
+        this.user = user;
     }
 
     @Id
@@ -35,19 +36,15 @@ public class AdsEntityModel {
     private String details;
     private double price;
     private String targetNumber;
-    private Long ownerId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private Category category;
 
-    public Long getOwnerId() {
-        return ownerId;
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ownerId", referencedColumnName = "id")
+    private AppUser user;
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
-    }
 
     @OneToMany(targetEntity = AdDescription.class, cascade = CascadeType.ALL)
     @JoinColumn(name="AdsId", referencedColumnName = "id")
@@ -145,7 +142,13 @@ public class AdsEntityModel {
         return category;
     }
 
+    public AppUser getUser() {
+        return user;
+    }
+
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public void setUser(AppUser user) {this.user = user;}
 }
