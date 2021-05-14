@@ -38,7 +38,15 @@ public class AppUser implements UserDetails {
     private boolean isAdmin;
     private Date createdOn;
     private String email;
-    @JsonIgnore
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     private String password;
 
     public AppUser(){}
@@ -156,7 +164,4 @@ public class AppUser implements UserDetails {
         Id = id;
     }
 
-    public void setEmail(String uemail) {
-        email = uemail;
-    }
 }

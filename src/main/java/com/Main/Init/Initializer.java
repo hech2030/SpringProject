@@ -1,5 +1,6 @@
 package com.Main.Init;
 
+import com.Main.Request.SaveUserRequest;
 import com.Main.Security.AppUser;
 import com.Main.Security.UserService;
 import org.apache.juli.logging.Log;
@@ -19,11 +20,13 @@ public class Initializer implements CommandLineRunner {
     private UserService userService;
     @Override
     public void run(String... args) throws Exception {
-        if(userService.find().isEmpty()){
+        if(userService.find(Long.valueOf(0)).isEmpty()){
             logger.info("No user found");
             AppUser user = new AppUser("hichem","Fakhfakh","53033545","Sfax",false,
                     false,true,new Date(),"hichemfakhfakh@hotmail.fr","password");
-            userService.save(user);
+            SaveUserRequest saveRequest = new SaveUserRequest();
+            saveRequest.setValue(user);
+            userService.save(saveRequest);
         }
     }
 }
