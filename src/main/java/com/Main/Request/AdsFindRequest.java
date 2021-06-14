@@ -3,6 +3,16 @@ package com.Main.Request;
 public class AdsFindRequest {
     public int id;
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int
+                                  userId) {
+        this.userId = userId;
+    }
+
+    public int userId;
     public int getCategId() {
         return categId;
     }
@@ -21,9 +31,10 @@ public class AdsFindRequest {
         this.id = id;
     }
 
-    public AdsFindRequest(int id, int categId) {
+    public AdsFindRequest(int id, int categId, int userId) {
         this.id = id;
         this.categId = categId;
+        this.userId = userId;
     }
 
     public AdsFindRequest(){}

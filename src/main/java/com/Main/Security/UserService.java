@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
         return new BCryptPasswordEncoder();
     }
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+    public AppUser loadUserByUsername(String username) throws UsernameNotFoundException{
         AppUser user = userRepository.findByEmail(username);
         if(user == null){
             try {
@@ -49,7 +49,11 @@ public class UserService implements UserDetailsService {
     public AppUser save(SaveUserRequest saveUserRequest) throws Exception{
         AppUser user = saveUserRequest.getValue();
         if(user.getId() == 0 ){
-            user.setPassword(passwordEncoder().encode(user.getPassword()));
+            var check = loadUserByUsername(user.getUsername());
+            if(check == null)
+                user.setPassword(passwordEncoder().encode(user.getPassword()));
+            else
+                throw  new Exception("user exist already");
         }
         else if(saveUserRequest.getIsNewPassword() && !saveUserRequest.getNewPassword().isEmpty()){
             //We need to get the Password from the user(by default we don't send the password to client side)

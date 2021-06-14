@@ -29,7 +29,8 @@ public class AdsEntityModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
-    private String title;
+
+    private String title; //Titre
     private Date creationDate;
     private String objectLocation;
     private boolean isDeleted;
@@ -37,11 +38,11 @@ public class AdsEntityModel {
     private double price;
     private String targetNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private Category category;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "ownerId", referencedColumnName = "id")
     private AppUser user;
 

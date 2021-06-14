@@ -4,16 +4,14 @@ import antlr.Token;
 import com.Main.Request.FindUserRequest;
 import com.Main.Request.SaveUserRequest;
 import com.Main.Response.ResponseBase;
+import com.Main.Response.SignInResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +19,7 @@ import java.util.OptionalLong;
 
 @RestController
 @RequestMapping(value = "/api/v1/auth")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class AuthController {
     @Autowired
     private TokenUtil tokenUtil;
@@ -32,15 +31,21 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping(value = {"","/"})
-    public JwtResponse signIn(@RequestBody SignInRequest signInRequest){
+    public SignInResponse signIn(@RequestBody SignInRequest signInRequest){
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInRequest.getUserName(),signInRequest.getPassword())
                 );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails userDetails = userService.loadUserByUsername(signInRequest.getUserName());
+        AppUser userDetails = userService.loadUserByUsername(signInRequest.getUserName());
         String token = tokenUtil.TokenGeneration(userDetails);
         JwtResponse response = new JwtResponse(token);
-        return response;
+        SignInResponse Result = new SignInResponse();
+        if(response != null){
+            Result.setToken(response);
+            Result.setValue(userDetails);
+            return Result;
+        }
+        return null;
     }
 
     @PostMapping(value = "/Save")
