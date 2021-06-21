@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface AdsEntityRepository extends JpaRepository<AdsEntityModel, Long> {
     List<AdsEntityModel> findByIsDeletedFalse();
-    List<AdsEntityModel> findBycategory(Category category);
+    List<AdsEntityModel> findBycategoryAndIsDeletedFalse(Category category);
     @Query(value = "select * from AEM_AdEntityModel ads inner join OEM_OwnerEntityModel usr on ads.ownerId = usr.id where usr.id = ?", nativeQuery = true)
     List<AdsEntityModel> findByUserId(long userId);
 }

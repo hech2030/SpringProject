@@ -34,7 +34,7 @@ public class AdsEntityServices {
         if(categId>0){
             var cat = _CategoryEntityRepository.findById(categId);
             if(cat.isPresent()) {
-                var result = _adsEntityRepository.findBycategory(cat.get());
+                var result = _adsEntityRepository.findBycategoryAndIsDeletedFalse(cat.get());
                 if (!result.isEmpty())
                     return result;
                 else
